@@ -1,0 +1,9 @@
+---
+- name: Add proxy to yum config
+  lineinfile:
+    dest: /etc/yum.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: "{{ item.state | default('present') }}"
+  with_items:
+    - {regexp: "^proxy", line: "proxy={{ http_proxy }}"}

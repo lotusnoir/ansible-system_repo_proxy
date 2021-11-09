@@ -1,0 +1,49 @@
+---
+- name: Skip config apt-proxy if its himself
+  meta: end_host
+  when: inventory_hostname == apt_proxy_hostname
+
+- name: Check if "{{ apt_proxy_file }}" exist.
+  stat:
+    path: "{{ apt_proxy_file }}"
+  register: proxyfile
+
+- name: Check if proxy is set properly
+  lineinfile:
+    dest: "{{ apt_proxy_file }}"
+    line: "Acquire::http::Proxy \"{{ apt_proxy }}\";"
+  check_mode: 'yes'
+  register: apt_check
+  changed_when: false
+  when: proxyfile.stat.exists
+
+- when: not proxyfile.stat.exists or apt_check.changed
+  block:
+    - name: Make sure to remove other proxy configuration
+      lineinfile:
+        path: /etc/apt/apt.conf
+        state: absent
+        regexp: '^Acquire::http(.*)Proxy'
+
+    - name: Remove custom proxy files
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items: "{{ apt_proxy_remove }}"
+
+    - name: Set up new apt-proxy file
+      copy:
+        dest: "{{ apt_proxy_file }}"
+        mode: '0644'
+        content: |
+          Acquire::http::Proxy "{{ apt_proxy }}";
+          Acquire::https::Proxy "{{ apt_proxy }}";
+
+    - name: Update repositories cache
+      apt:
+        update_cache: 'yes'
+        cache_valid_time: 86400
+      register: apt_result
+      retries: 20
+      delay: 10
+      until: apt_result is success
