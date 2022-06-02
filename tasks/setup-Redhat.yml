@@ -1,6 +1,6 @@
 ---
-- name: Add proxy to yum config
-  lineinfile:
+- name: "Add proxy to yum config"
+  ansible.builtin.lineinfile:
     dest: /etc/yum.conf
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
