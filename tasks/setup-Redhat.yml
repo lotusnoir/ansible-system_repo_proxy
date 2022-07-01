@@ -6,4 +6,4 @@
     line: "{{ item.line }}"
     state: "{{ item.state | default('present') }}"
   with_items:
-    - {regexp: "^proxy", line: "proxy={{ http_proxy }}"}
+    - {regexp: "^proxy", line: "proxy={{ yum_proxy }}"}

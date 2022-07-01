@@ -1,6 +1,6 @@
 ---
 ### Yum proxy
-http_proxy: "http://squid.exemple.com:3128"
+yum_proxy: "http://squid.exemple.com:3128"
 
 ### Apt cacher proxy
 apt_proxy: "https://exemple.com:3142"
