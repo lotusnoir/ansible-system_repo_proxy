@@ -1,5 +1,5 @@
 ---
-- name: "Add proxy to yum config"
+- name: "REDHAT: Add proxy to yum config"
   ansible.builtin.lineinfile:
     dest: /etc/yum.conf
     regexp: "{{ item.regexp }}"

@@ -1,6 +1,6 @@
 ---
-- include: setup-Debian.yml
+- import_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- include: setup-Redhat.yml
+- import_tasks: setup-Redhat.yml
   when: ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
