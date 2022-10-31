@@ -14,7 +14,6 @@
     line: "Acquire::http::Proxy \"{{ apt_proxy }}\";"
   check_mode: 'yes'
   register: apt_check
-  changed_when: false
   when: proxyfile.stat.exists
 
 - name: "DEBIAN: Change Proxy configuration"
