@@ -6,3 +6,8 @@
 
   roles:
     - role: ansible-system_repo_proxy
+
+  vars:
+    yum_proxy: "http://squid.exemple.com:3128"
+    apt_proxy_file: "/etc/apt/apt.conf.d/01proxy"
+    apt_proxy: "https://exemple.com:3142"
