@@ -19,6 +19,8 @@ none
 
 See [variables](/defaults/main.yml) for more details.
 
+With default variables, this role assume it doesnt change anything on the system. You need to set the config variables like in the exemple in order to configure the repository proxy.
+
 ## Examples
 
         ---
@@ -28,6 +30,15 @@ See [variables](/defaults/main.yml) for more details.
           gather_facts: true
           roles:
             - role: ansible-system_repo_proxy
+          vars: 
+            yum_proxy: "http://squid.exemple.com:3128"
+            apt_proxy_file: "/etc/apt/apt.conf.d/01proxy"
+            apt_proxy: "https://exemple.com:3142"
+            apt_proxy_skip_host: "{{ apt_proxy | urlsplit('hostname') }}"
+            apt_proxy_remove:
+              - /etc/apt/apt.conf.d/99proxy
+            
+
 
 
 ## License

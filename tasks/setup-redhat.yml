@@ -7,3 +7,6 @@
     state: "{{ item.state | default('present') }}"
   with_items:
     - {regexp: "^proxy", line: "proxy={{ yum_proxy }}"}
+  when:
+    - yum_proxy is defined
+    - yum_proxy | length > 0
