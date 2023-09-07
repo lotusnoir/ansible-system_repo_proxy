@@ -11,7 +11,7 @@
 #apt_proxy: "https://exemple.com:3142"
 
 ## This var is used to skip a specific host
-#apt_proxy_skip_host: "{{ apt_proxy | urlsplit('hostname') }}"
+#apt_proxy_skip_host: false
 
 ## Remove a specific file
 #apt_proxy_remove:

@@ -1,10 +1,9 @@
 ---
-- name: "DEBIAN | Skip config apt-proxy if its himself"
+- name: "DEBIAN | Skip config apt-proxy"
   ansible.builtin.meta: end_host
   when:
     - apt_proxy_skip_host is defined
-    - apt_proxy_skip_host | length > 0
-    - inventory_hostname == apt_proxy_skip_host
+    - apt_proxy_skip_host | bool
 
 - name: "DEBIAN | Check if {{ apt_proxy_file }} exist."
   ansible.builtin.stat:
