@@ -5,26 +5,26 @@
     - apt_proxy_skip_host is defined
     - apt_proxy_skip_host | bool
 
-- name: "DEBIAN | Check if {{ apt_proxy_file }} exist."
-  ansible.builtin.stat:
-    path: "{{ apt_proxy_file }}"
-  register: proxyfile
-  when:
-    - apt_proxy_file is defined
-    - apt_proxy_file | length > 0
-
-- name: "DEBIAN | Check if proxy is set properly"
-  ansible.builtin.lineinfile:
-    dest: "{{ apt_proxy_file }}"
-    line: "Acquire::http::Proxy \"{{ apt_proxy }}\";"
-  check_mode: 'yes'
-  register: apt_check
-  when:
-    - apt_proxy_file is defined
-    - apt_proxy_file | length > 0
-    - apt_proxy is defined
-    - apt_proxy | length > 0
-    - proxyfile.stat.exists
+#- name: "DEBIAN | Check if {{ apt_proxy_file }} exist."
+#  ansible.builtin.stat:
+#    path: "{{ apt_proxy_file }}"
+#  register: proxyfile
+#  when:
+#    - apt_proxy_file is defined
+#    - apt_proxy_file | length > 0
+#
+#- name: "DEBIAN | Check if proxy is set properly"
+#  ansible.builtin.lineinfile:
+#    dest: "{{ apt_proxy_file }}"
+#    line: "Acquire::http::Proxy \"{{ apt_proxy }}\";"
+#  check_mode: 'yes'
+#  register: apt_check
+#  when:
+#    - apt_proxy_file is defined
+#    - apt_proxy_file | length > 0
+#    - apt_proxy is defined
+#    - apt_proxy | length > 0
+#    - proxyfile.stat.exists
 
 - name: "DEBIAN | Change Proxy configuration"
   when:
@@ -32,9 +32,9 @@
     - apt_proxy_file | length > 0
     - apt_proxy is defined
     - apt_proxy | length > 0
-    - (not proxyfile.stat.exists or apt_check.changed)
+    #- (not proxyfile.stat.exists or apt_check.changed)
   block:
-    - name: "DEBIAN | Make sure to remove other proxy configuration"
+    - name: "DEBIAN | Make sure to remove proxy configuration in main config"
       ansible.builtin.lineinfile:
         path: /etc/apt/apt.conf
         state: absent
@@ -50,12 +50,12 @@
         - apt_proxy_remove | length > 0
 
     - name: "DEBIAN | Set up new apt-proxy file"
-      ansible.builtin.copy:
+      ansible.builtin.template:
+        src: "proxy.j2"
         dest: "{{ apt_proxy_file }}"
-        mode: '0644'
-        content: |
-          Acquire::http::Proxy "{{ apt_proxy }}";
-          Acquire::https::Proxy "{{ apt_proxy }}";
+        owner: "root"
+        group: "root"
+        mode: "0644"
 
     - name: "DEBIAN | Update repositories cache"
       ansible.builtin.apt:
