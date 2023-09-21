@@ -4,12 +4,12 @@
   become: true
   any_errors_fatal: true
 
-  tasks:
-    - name: Include role
-      ansible.builtin.include_role:
-        name: ansible-system_repo_proxy
-
   vars:
     yum_proxy: "http://squid.exemple.com:3128"
     apt_proxy_file: "/etc/apt/apt.conf.d/01proxy"
     apt_proxy: "https://exemple.com:3142"
+
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: ansible-system_repo_proxy
