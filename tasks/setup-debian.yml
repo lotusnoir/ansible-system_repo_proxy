@@ -61,7 +61,7 @@
       ansible.builtin.apt:
         update_cache: 'yes'
         cache_valid_time: 86400
-      register: apt_result
-      retries: 20
+      register: pkg_result
+      retries: 12
       delay: 10
-      until: apt_result is success
+      until: pkg_result is success
