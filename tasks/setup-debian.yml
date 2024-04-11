@@ -59,8 +59,7 @@
 
     - name: "DEBIAN | Update repositories cache"
       ansible.builtin.apt:
-        update_cache: 'yes'
-        cache_valid_time: 86400
+        update_cache: true
       register: pkg_result
       retries: 12
       delay: 10
