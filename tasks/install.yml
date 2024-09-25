@@ -1,4 +1,10 @@
 ---
+- name: "Skip config"
+  ansible.builtin.meta: end_host
+  when:
+    - repo_proxy_skip_host is defined
+    - repo_proxy_skip_host | bool
+
 - name: Debian tasks
   ansible.builtin.import_tasks: setup-debian.yml
   when: ansible_os_family == 'Debian'

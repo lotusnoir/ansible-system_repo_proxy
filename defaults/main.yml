@@ -1,18 +1,19 @@
 ---
-### Yum proxy
-## redhat proxy url
-#yum_proxy: "http://squid.exemple.com:3128"
+## proxy settings
+repo_proxy_scheme: "http"
+repo_proxy_server: "squid.exemple.com"
+repo_proxy_port: "3128"
+repo_proxy_user: ""
+repo_proxy_password: ""
 
-### Apt cacher proxy
+## skip a specific host
+repo_proxy_skip_host: false
+repo_proxy_update_cache: false
+
+### Debian family
+
 ## File to set proxy settings
-#apt_proxy_file: "/etc/apt/apt.conf.d/01proxy"
-
-## debian proxy url
-#apt_proxy: "https://exemple.com:3142"
-
-## This var is used to skip a specific host
-#apt_proxy_skip_host: false
-
+apt_proxy_file: "/etc/apt/apt.conf.d/01proxy"
 ## Remove a specific file
-#apt_proxy_remove:
+apt_proxy_remove: []
 #  - /etc/apt/apt.conf.d/99proxy

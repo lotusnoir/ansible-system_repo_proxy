@@ -1,38 +1,9 @@
 ---
-- name: "DEBIAN | Skip config apt-proxy"
-  ansible.builtin.meta: end_host
-  when:
-    - apt_proxy_skip_host is defined
-    - apt_proxy_skip_host | bool
-
-#- name: "DEBIAN | Check if {{ apt_proxy_file }} exist."
-#  ansible.builtin.stat:
-#    path: "{{ apt_proxy_file }}"
-#  register: proxyfile
-#  when:
-#    - apt_proxy_file is defined
-#    - apt_proxy_file | length > 0
-#
-#- name: "DEBIAN | Check if proxy is set properly"
-#  ansible.builtin.lineinfile:
-#    dest: "{{ apt_proxy_file }}"
-#    line: "Acquire::http::Proxy \"{{ apt_proxy }}\";"
-#  check_mode: 'yes'
-#  register: apt_check
-#  when:
-#    - apt_proxy_file is defined
-#    - apt_proxy_file | length > 0
-#    - apt_proxy is defined
-#    - apt_proxy | length > 0
-#    - proxyfile.stat.exists
-
 - name: "DEBIAN | Change Proxy configuration"
   when:
-    - apt_proxy_file is defined
-    - apt_proxy_file | length > 0
-    - apt_proxy is defined
-    - apt_proxy | length > 0
-    #- (not proxyfile.stat.exists or apt_check.changed)
+    - repo_proxy_scheme is defined and repo_proxy_scheme | length > 0
+    - repo_proxy_server is defined and repo_proxy_server | length > 0
+    - repo_proxy_port is defined and repo_proxy_port | length > 0
   block:
     - name: "DEBIAN | Make sure to remove proxy configuration in main config"
       ansible.builtin.lineinfile:
@@ -64,3 +35,6 @@
       retries: 12
       delay: 10
       until: pkg_result is success
+      when:
+        - repo_proxy_update_cache is defined
+        - repo_proxy_update_cache | bool

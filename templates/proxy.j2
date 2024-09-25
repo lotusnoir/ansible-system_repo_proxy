@@ -1,4 +1,4 @@
 {{ ansible_managed | comment('c') }}
 
-Acquire::http::Proxy "{{ apt_proxy }}";
-Acquire::https::Proxy "{{ apt_proxy }}";
+Acquire::http::Proxy "{{ repo_proxy_scheme }}://{{ repo_proxy_server }}:{{ repo_proxy_port }}";
+Acquire::https::Proxy "{{ repo_proxy_scheme }}://{{ repo_proxy_server }}:{{ repo_proxy_port }}";
