@@ -22,6 +22,7 @@
 ## Description
 
 Configure proxy on repository
+
 ## Requirements
 
 none
@@ -49,7 +50,6 @@ With default variables, this role dont change anything on the system. You need t
             apt_proxy_skip_host: "{{ apt_proxy | urlsplit('hostname') }}"
             apt_proxy_remove:
               - /etc/apt/apt.conf.d/99proxy
-
 
 
 ## License
