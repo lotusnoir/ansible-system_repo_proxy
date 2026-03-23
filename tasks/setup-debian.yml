@@ -3,7 +3,7 @@
   when:
     - repo_proxy_scheme is defined and repo_proxy_scheme | length > 0
     - repo_proxy_server is defined and repo_proxy_server | length > 0
-    - repo_proxy_port is defined and repo_proxy_port | length > 0
+    - repo_proxy_port is defined and repo_proxy_port | int > 0
   block:
     - name: "DEBIAN | Make sure to remove proxy configuration in main config"
       ansible.builtin.lineinfile:
